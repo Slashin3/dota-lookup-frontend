@@ -79,7 +79,7 @@ function App() {
     setError(null);
 
     try {
-      const response = await fetch(`http://localhost:5000/players/${accountId}`);
+      const response = await fetch(`https://dota-lookup-backend.onrender.com/players/${accountId}`);
       if (!response.ok) {
         const errorText = await response.text();
         throw new Error(errorText || "Error fetching player data");
@@ -88,7 +88,7 @@ function App() {
       setPlayerData(data);
 
       // Fetch recent matches after getting player data
-      const matchesResponse = await fetch(`http://localhost:5000/api/recent-matches/${accountId}`);
+      const matchesResponse = await fetch(`https://dota-lookup-backend.onrender.com/api/recent-matches/${accountId}`);
       if (!matchesResponse.ok) {
         throw new Error("Error fetching recent matches");
       }
