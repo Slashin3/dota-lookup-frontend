@@ -26,6 +26,7 @@ function App() {
     12: "Least Played",
     13: "Limited Heroes",
     14: "Custom",
+    22: "Ranked"
     // Add more game modes if needed
   };
 
@@ -130,6 +131,7 @@ function App() {
       setLoading(false);
     }
   };
+
   const rankTierMap = {
     11: "Herald 1",
     12: "Herald 2",
@@ -166,10 +168,8 @@ function App() {
     73: "Divine 3",
     74: "Divine 4",
     75: "Divine 5",
-    80: "Immortal"
-    // Add any other mappings as needed
+    80: "Immortal",
   };
-  
 
   return (
     <div className="App">
@@ -247,7 +247,7 @@ function App() {
                 <th>Deaths</th>
                 <th>Assists</th>
                 <th>Duration</th>
-                <th>Game Mode</th>
+                <th>Game Mode</th> {/* Displaying ranked in game mode */}
               </tr>
             </thead>
             <tbody>
@@ -272,7 +272,7 @@ function App() {
                       "Unknown"
                     )}
                   </td>
-                  <td>{match.player_slot < 128 ? "Win" : "Lose"}</td>
+                  <td>{match.rank_tier < 128 ? "Win" : "Lose"}</td>
                   <td>{match.kills}</td>
                   <td>{match.deaths}</td>
                   <td>{match.assists}</td>
