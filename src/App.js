@@ -37,7 +37,10 @@ function App() {
         if (!response.ok) throw new Error("Error fetching heroes");
         const data = await response.json();
         const heroMap = data.reduce((acc, hero) => {
-          const heroName = hero.name.replace("npc_dota_hero_", "").replace(/_/g, "-").toLowerCase();
+          const heroName = hero.name
+            .replace("npc_dota_hero_", "")
+            .replace(/_/g, "-")
+            .toLowerCase();
           let formattedName = heroName;
           switch (heroName) {
             case "chaos-knight":
@@ -54,6 +57,27 @@ function App() {
               break;
             case "legion-commander":
               formattedName = "legion_commander";
+              break;
+            case "shadow-demon":
+              formattedName = "shadow_demon";
+              break;
+            case "skywrath-mage":
+              formattedName = "skywrath_mage";
+              break;
+            case "naga-siren":
+              formattedName = "naga_siren";
+              break;
+            case "monkey-king":
+              formattedName = "monkey_king";
+              break;
+            case "dragon-knight":
+              formattedName = "dragon_knight";
+              break;
+            case "templar-assassin":
+              formattedName = "templar_assassin";
+              break;
+            case "earth-spirit":
+              formattedName = "earth_spirit";
               break;
             default:
               break;
@@ -79,7 +103,9 @@ function App() {
     setError(null);
 
     try {
-      const response = await fetch(`https://dota-lookup-backend.onrender.com/players/${accountId}`);
+      const response = await fetch(
+        `https://dota-lookup-backend.onrender.com/players/${accountId}`
+      );
       if (!response.ok) {
         const errorText = await response.text();
         throw new Error(errorText || "Error fetching player data");
@@ -88,7 +114,9 @@ function App() {
       setPlayerData(data);
 
       // Fetch recent matches after getting player data
-      const matchesResponse = await fetch(`https://dota-lookup-backend.onrender.com/api/recent-matches/${accountId}`);
+      const matchesResponse = await fetch(
+        `https://dota-lookup-backend.onrender.com/api/recent-matches/${accountId}`
+      );
       if (!matchesResponse.ok) {
         throw new Error("Error fetching recent matches");
       }
@@ -102,6 +130,46 @@ function App() {
       setLoading(false);
     }
   };
+  const rankTierMap = {
+    11: "Herald 1",
+    12: "Herald 2",
+    13: "Herald 3",
+    14: "Herald 4",
+    15: "Herald 5",
+    21: "Guardian 1",
+    22: "Guardian 2",
+    23: "Guardian 3",
+    24: "Guardian 4",
+    25: "Guardian 5",
+    31: "Crusader 1",
+    32: "Crusader 2",
+    33: "Crusader 3",
+    34: "Crusader 4",
+    35: "Crusader 5",
+    41: "Archon 1",
+    42: "Archon 2",
+    43: "Archon 3",
+    44: "Archon 4",
+    45: "Archon 5",
+    51: "Legend 1",
+    52: "Legend 2",
+    53: "Legend 3",
+    54: "Legend 4",
+    55: "Legend 5",
+    61: "Ancient 1",
+    62: "Ancient 2",
+    63: "Ancient 3",
+    64: "Ancient 4",
+    65: "Ancient 5",
+    71: "Divine 1",
+    72: "Divine 2",
+    73: "Divine 3",
+    74: "Divine 4",
+    75: "Divine 5",
+    80: "Immortal"
+    // Add any other mappings as needed
+  };
+  
 
   return (
     <div className="App">
@@ -136,10 +204,15 @@ function App() {
               <strong>Country:</strong> {playerData.profile.loccountrycode}
             </p>
             <p>
-              <strong>Rank Tier:</strong> {playerData.rank_tier}
+              <strong>Rank Tier:</strong>{" "}
+              {playerData.rank_tier !== undefined
+                ? rankTierMap[playerData.rank_tier]
+                : "Unranked"}
             </p>
+
             <p>
-              <strong>Plus User:</strong> {playerData.profile.plus ? "Yes" : "No"}
+              <strong>Plus User:</strong>{" "}
+              {playerData.profile.plus ? "Yes" : "No"}
             </p>
             <p>
               <a
@@ -206,7 +279,7 @@ function App() {
                   <td>
                     {Math.floor(match.duration / 60)}:
                     {match.duration % 60 < 10 ? "0" : ""}
-                    {match.duration % 60} minutes
+                    {match.duration % 60}
                   </td>
                   <td>{gameModeMap[match.game_mode] || "Unknown"}</td>
                 </tr>
